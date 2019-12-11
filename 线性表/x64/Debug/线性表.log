@@ -1,0 +1,18 @@
+﻿  线性表.cpp
+C:\Users\Administrator\source\repos\线性表\线性表.cpp(144,11): warning C4101: “e”: 未引用的局部变量
+C:\Users\Administrator\source\repos\线性表\线性表.cpp(72): warning C4715: “LocElem”: 不是所有的控件路径都返回值
+C:\Users\Administrator\source\repos\线性表\线性表.cpp(99): warning C4715: “DeleteElem”: 不是所有的控件路径都返回值
+线性表.obj : error LNK2005: "void __cdecl CreateSqlist(struct SqList * &,int * const,int)" (?CreateSqlist@@YAXAEAPEAUSqList@@QEAHH@Z) 已经在 源.obj 中定义
+线性表.obj : error LNK2005: "void __cdecl DelElems1(struct SqList * &,int)" (?DelElems1@@YAXAEAPEAUSqList@@H@Z) 已经在 源.obj 中定义
+线性表.obj : error LNK2005: "void __cdecl DelElems2(struct SqList * &,int)" (?DelElems2@@YAXAEAPEAUSqList@@H@Z) 已经在 源.obj 中定义
+线性表.obj : error LNK2005: "bool __cdecl DeleteElem(struct SqList * &,int)" (?DeleteElem@@YA_NAEAPEAUSqList@@H@Z) 已经在 源.obj 中定义
+线性表.obj : error LNK2005: "void __cdecl DestorySqlist(struct SqList * &)" (?DestorySqlist@@YAXAEAPEAUSqList@@@Z) 已经在 源.obj 中定义
+线性表.obj : error LNK2005: "void __cdecl DispSqlist(struct SqList *)" (?DispSqlist@@YAXPEAUSqList@@@Z) 已经在 源.obj 中定义
+线性表.obj : error LNK2005: "bool __cdecl GetElem(struct SqList *,int,int)" (?GetElem@@YA_NPEAUSqList@@HH@Z) 已经在 源.obj 中定义
+线性表.obj : error LNK2005: "void __cdecl InitSqlist(struct SqList * &)" (?InitSqlist@@YAXAEAPEAUSqList@@@Z) 已经在 源.obj 中定义
+线性表.obj : error LNK2005: "bool __cdecl InsertElem(struct SqList *,int,int)" (?InsertElem@@YA_NPEAUSqList@@HH@Z) 已经在 源.obj 中定义
+线性表.obj : error LNK2005: "bool __cdecl ListEmpty(struct SqList * &)" (?ListEmpty@@YA_NAEAPEAUSqList@@@Z) 已经在 源.obj 中定义
+线性表.obj : error LNK2005: "int __cdecl LocElem(struct SqList *,int)" (?LocElem@@YAHPEAUSqList@@H@Z) 已经在 源.obj 中定义
+线性表.obj : error LNK2005: "void __cdecl Swap(char * *,char * *)" (?Swap@@YAXPEAPEAD0@Z) 已经在 源.obj 中定义
+线性表.obj : error LNK2005: main 已经在 源.obj 中定义
+C:\Users\Administrator\source\repos\线性表\x64\Debug\线性表.exe : fatal error LNK1169: 找到一个或多个多重定义的符号
