@@ -1,122 +1,80 @@
 ﻿#include<stdio.h>
-#include<malloc.h>
-#define MaxSize 64
-#define M 8
-#define N 8
+#define MaxSize 100
+#define M 4
+#define N 4
 
-
+// 迷宫图
 int mg[M + 2][N + 2] =
 {
-	{1,1,1,1,1,1,1,1,1,1},
-	{1,0,0,1,0,0,0,1,0,1},
-	{1,0,0,1,0,0,0,1,0,1},
-	{1,0,0,0,0,1,1,0,0,1},
-	{1,0,1,1,1,0,0,0,0,1},
-	{1,0,0,0,1,0,0,0,0,1},
-	{1,0,1,0,0,0,1,0,0,1},
-	{1,0,1,1,1,0,1,1,0,1},
-	{1,1,0,0,0,0,0,0,0,1},
-	{1,1,1,1,1,1,1,1,1,1},
+	{1,1,1,1,1,1},
+	{1,0,0,0,1,1},
+	{1,0,1,0,0,1},
+	{1,0,0,0,1,1},
+	{1,1,0,0,0,1},
+	{1,1,1,1,1,1}
 };
-typedef struct
+
+struct
 {
 	int i;    // 方块的行号
 	int j;    // 方块的列号
 	int di;    // 方块的下一个可走的方向
-}Box;     // 方块类型
+}St[MaxSize], Path[MaxSize];     // 方块类型
+
+int top = -1;    // 栈顶指针
+int count = 1;    // 路径数计数
+int minlen = MaxSize;    // 最短路径长度
 
 // 方位设置：上下左右依次为0,1,2,3
 
-typedef struct
+// 输出一条路径
+void Disp_one_path()
 {
-	Box data[MaxSize];
-	int top;
-}StType;  // 顺序栈
-
-//  栈的初始化
-void InitStack(StType*& s) 
-{
-	s = (StType*)malloc(sizeof(StType));
-	s->top = -1;
+	int k;
+	printf("% 5d: ", count++);
+	for (k = 0; k <= top; k++)
+		printf("(%d, %d) ", St[k].i, St[k].j);
+	printf("\n");
+	if (top + 1 < minlen)
+	{
+		for (k = 0; k <= top; k++)
+			Path[k] = St[k];
+		minlen = top + 1;
+	}
 }
 
-// 销毁栈
-void DestoryStack(StType*& s)
+// 输出第一天最短路径
+void Disp_min_path()
 {
-	free(s);
-}
-
-// 进栈
-bool Push(StType*& s, Box e)
-{
-	if (s->top == MaxSize - 1)
-		return false;
-	s->top++;
-	s->data[s->top] = e;
-	return true;
-}
-
-// 退栈
-bool Pop(StType*& s, Box &e)
-{
-	if (s->top == -1)
-		return false;
-	e = s->data[s->top];
-	s->top--;
-	return true;
-}
-
-// 取栈顶元素
-bool GetTop(StType* s, Box &e)
-{
-	if (s->top == -1)
-		return false;
-	e = s->data[s->top];
-	return true;
-}
-
-// 栈是否为空
-bool IsStackEmpty(StType* s)
-{
-	return (s->top == -1);
+	printf("最短路径如下：\n");
+	printf("长度: %d\n", minlen);
+	printf("路径: ");
+	for (int k = 0; k < minlen; k++)
+		printf("(%d ,%d)", Path[k].i,Path[k].j);
+	printf("\n");
 }
 
 // 迷宫求解算法
-bool FindPath(int xi, int yi, int xe, int ye)
+void FindPath(int xi, int yi, int xe, int ye)
 {
-	
-	Box path[MaxSize], e;
+	int i, j, i1, j1, di;
 	bool find;
-	StType* st;
-	InitStack(st);
-	e.i = xi; e.j = yi; e.di = -1;
-	Push(st, e);
+	top++;
+	St[top].i = xi;
+	St[top].j = yi;
+	St[top].di = -1;
 	mg[xi][yi] = -1;
-	int i,j,di,k,i1,j1;
-	while (!IsStackEmpty(st))
+	while (top > -1)
 	{
-		GetTop(st, e);      // 取栈顶元素
-		i = e.i; j = e.j; di = e.di;
-		if (i == xe && j == ye)    // 如果栈顶方块为出口，输出路径
+		i = St[top].i; j = St[top].j;
+		di = St[top].di;
+		if (i == xe && j == ye)
 		{
-			printf("该迷宫的一条路径为：\n");
-			k = 0;
-			while (!IsStackEmpty(st))   // 将栈中方块存入path[]
-			{
-				Pop(st, e);
-				path[k] = e;
-				k++;
-			}
-			while (k >= 1)      // 输出path[]
-			{
-				k--;
-				printf("\t(%d,%d)%d", path[k].i, path[k].j, path[k].di);
-				if ((k+2) % 5 == 0)
-					printf("\n");
-			}
-			printf("\n");
-			DestoryStack(st);
-			return true;
+			Disp_one_path();
+			mg[i][j] = 0;
+			top--;
+			i = St[top].i; j = St[top].j;
+			di = St[top].di;
 		}
 		find = false;
 		while (di < 4 && !find)
@@ -124,35 +82,33 @@ bool FindPath(int xi, int yi, int xe, int ye)
 			di++;
 			switch (di)
 			{
-				case 0:i1 = i - 1, j1 = j; break;
-				case 1:i1 = i, j1 = j + 1; break;
-				case 2:i1 = i + 1, j1 = j; break;
-				case 3:i1 = i, j1 = j - 1; break;
+			case 0:i1 = i - 1; j1 = j; break;
+			case 1:i1 = i; j1 = j + 1; break;
+			case 2:i1 = i + 1; j1 = j; break;
+			case 3:i1 = i; j1 = j - 1; break;
 			}
-			if (mg[i1][j1] == 0)     // 找到了一个相邻可走的方块，设置find为true
-				find = true;
+			if (mg[i][j] == 0) find = true;
 		}
 		if (find)
 		{
-			st->data[st->top].di = di;
-			e.i = i; e.j = j; e.di = -1;
-			Push(st, e);
+			St[top].di = di;
+			top++; St[top].i = i1; St[top].j = j1;
+			St[top].di = -1;
 			mg[i1][j1] = -1;
 		}
 		else
 		{
-			Pop(st, e);
-			mg[e.i][e.j] = 0;
+			mg[i][j] = 0;
+			top--;
 		}
 	}
-	DestoryStack(st);
-	return false;
+	Disp_min_path();
 }
 
 
 int main()
 {
-	if (!FindPath(1, 1, M, N))
-		printf("该迷宫无解！");
+	printf("该迷宫所有路径如下：\n");
+	FindPath(1, 1, M, N);
 	return 1;
 }
