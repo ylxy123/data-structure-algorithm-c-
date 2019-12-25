@@ -38,6 +38,13 @@ void DispMatrix(ElemType A[M][N])
 	}
 }
 
+// 返回长度
+int LengthMin(MinMatrix* a)
+{
+	printf("\nLength: %d \n", a->length);
+	return a->length;
+}
+
 /*---------------------对称矩阵的压缩存储------------------------*/
 
 // 对称矩阵
@@ -81,7 +88,7 @@ bool SymMatrixMin(ElemType A[M][N], MinMatrix *&a)
 			k++;
 		}
 	}
-	a->length = k;  
+	a->length = k--;  
 	a->tag = 'S';    // 对称矩阵的标签
 	return true;
 }
@@ -118,29 +125,137 @@ int LocInArray(int i, int j, int& loc)
 /*-------------------上、下三角矩阵的压缩存储----------------------*/
 
 // 上三角矩阵
+int U[M][N] = {
+	{1,2,3,4,5},
+	{8,5,4,3,2},
+	{8,8,3,4,1},
+	{8,8,8,2,5},
+	{8,8,8,8,8}
+};
 
+// 判断为上三角矩阵
+bool isUpperTriMatrix(ElemType U[M][N])
+{
+	if (M != N)    // 若非方阵，返回false
+		return false;
+	for (int i = M-1; i > 0; i--)
+	{
+		for (int j = i-1; j >= 0; j--)
+		{
+			if (U[i][j] != U[1][0])    // 以U[1][0]为参照，不相等返回false
+				return false;
+		}
+	}
+	return true;
+}
 
+// 上三角矩阵的压缩存储
+bool MinUpperTriMatrix(ElemType U[M][N], MinMatrix*& a)
+{
+	if (!isUpperTriMatrix(U))
+		return false;
+	int k = 0;
+	for (int i = 0; i < M; i++)
+	{
+		for (int j = i; j < N; j++)
+		{
+			a->data[k] = U[i][j];
+			k++;
+		}
+	}
+	a->data[k] = U[1][0];
+	k++;
+	a->length = k;
+	a->tag = 'U';
+	return true;
+}
+
+// 上三角矩阵解压缩
+bool UnzipUpperTMatrix(MinMatrix* u, ElemType d[M][N])
+{
+	if (u->tag != 'U' || u->length <= 0)
+		return false;
+	int c = u->data[u->length-1];
+	int p = 0;
+	for (int i = 0; i < M; i++)
+	{
+		for (int j = i; j < N; j++)
+		{
+			d[i][j] = u->data[p];
+			p++;
+		}
+	}
+	if (c != 0)
+	{
+		for (int m = M - 1; m > 0; m--)
+		{
+			for (int n = m - 1; n >= 0; n--)
+			{
+				d[m][n] = c;
+			}
+		}
+	}
+	return true;
+}
 
 int main()
 {
-	MinMatrix *a;
-	int loc;
+	MinMatrix* a, * u;
+	int loc1;
 	ElemType b[M][N] = { 0 };
 	InitMinMatrix(a);
 	SymMatrixMin(A, a);
 	printf("\n/*----------对称矩阵A----------*/\n");
 	DispMatrix(A);
+	printf("\n/*--------判断A是否对称--------*/\n");
+	if (isSymMatrix(A))
+		printf("A是对称矩阵\n");
+	else
+		printf("A不是对称矩阵\n");
 	printf("\n/*-----对称矩阵A的压缩存储-----*/\n");
 	for (int i = 0; i < a->length; i++)
 		printf("%d ", a->data[i]);
 	printf("\n");
+	LengthMin(a);
 	printf("\n/*-------对称矩阵A解压缩-------*/\n");
 	if (UnzipSym(a, b))
 		DispMatrix(b);
 	printf("\n/*--------下标对应关系---------*/\n");
-	LocInArray(3, 4, loc);
-	printf("i:%d  j:%d  loc:%d ", 3, 4, loc);
+	LocInArray(3, 4, loc1);
+	printf("i:%d  j:%d  loc:%d ", 3, 4, loc1);
 	printf("\n");
+	
 	DestoryMinMatrix(a);
+
+	printf("\n/*----------上三角矩阵U---------*/\n");
+	ElemType d[M][N] = { 0 };
+	DispMatrix(U);
+	printf("\n/*-----判断U是否为上三角矩阵----*/\n");
+	if (isUpperTriMatrix(U))
+		printf("U是上三角矩阵\n");
+	else
+		printf("U不是上三角矩阵\n");
+	printf("\n/*-----上三角矩阵U的压缩存储-----*/\n");
+	InitMinMatrix(u);
+	MinUpperTriMatrix(U, u);
+	for (int i = 0; i < u->length; i++)
+		printf("%d ", u->data[i]);
+	printf("\n");
+	LengthMin(u);
+	printf("\n/*-------上三角矩阵U解压缩-------*/\n");
+	if (UnzipUpperTMatrix(u, d))
+		DispMatrix(d);
+
+	
+	DestoryMinMatrix(u);
+
+
+
+
+
+
+
+
+
 	return 0;
 }
