@@ -7,7 +7,7 @@ typedef int KeyType;    // 关键字
 typedef char InfoType;    // 其他数据类型
 typedef struct
 {
-	KeyType key;
+	KeyType key;    // 关键字类型
 	InfoType data;
 }RecType;    // 查找元素的类型
 
@@ -68,16 +68,33 @@ bool SqSearchElems(RecType R[], int n, KeyType k)
 	}
 }
 
+// 折半查找
+int BinarySearch(RecType R[], int n, KeyType k)
+{
+	int low = 0, high = n-1, mid;
+	
+	while (low <= high)
+	{
+		mid = (low + high) / 2;
+		if (R[mid].key == k)
+			return mid + 1;
+		else if (R[mid].key < k)
+			low = mid + 1;
+		else
+			high = mid - 1;
+	}
+	return 0;    // 查找失败返回0
+}
 
 int main()
 {
-
 	RecType r[MAXL];
 	int n = 10;
-	int keys[10] = { 9,8,3,6,3,4,3,2,1,0 };
+	int keys[10] = { 1,4,7,14,25,36,67,98,99,106 };
 	CreateList(r, keys, n);
 	DispList(r, n);
-	SqSearchElems(r, n, 3);
+	SqSearchElems(r, n, 14);
+	printf("%d ",BinarySearch(r, n, 36));
 	return 0;
 
 
