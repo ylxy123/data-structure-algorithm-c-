@@ -152,7 +152,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="sort_list.cpp" />
-    <ClCompile Include="希尔排序.cpp" />
+    <ClCompile Include="冒泡排序.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="希尔排序.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="快速排序.cpp" />
     <ClCompile Include="折半插入排序.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>

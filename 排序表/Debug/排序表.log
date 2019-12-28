@@ -1,2 +1,3 @@
-﻿MSVCRTD.lib(exe_main.obj) : error LNK2019: 无法解析的外部符号 _main，该符号在函数 "int __cdecl invoke_main(void)" (?invoke_main@@YAHXZ) 中被引用
-C:\Users\Administrator\source\repos\排序表\Debug\排序表.exe : fatal error LNK1120: 1 个无法解析的外部命令
+﻿  冒泡排序.cpp
+C:\Users\Administrator\source\repos\排序表\冒泡排序.cpp(44,6): warning C4101: “i”: 未引用的局部变量
+  排序表.vcxproj -> C:\Users\Administrator\source\repos\排序表\Debug\排序表.exe
