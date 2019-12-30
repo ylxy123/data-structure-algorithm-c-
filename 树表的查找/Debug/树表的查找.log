@@ -1,0 +1,3 @@
+﻿  bstree.cpp
+C:\Users\Administrator\source\repos\树表的查找\bstree.cpp(15): error C4716: “CreateBSTree”: 必须返回一个值
+C:\Users\Administrator\source\repos\树表的查找\bstree.cpp(9): error C4716: “InsertBSTree”: 必须返回一个值
