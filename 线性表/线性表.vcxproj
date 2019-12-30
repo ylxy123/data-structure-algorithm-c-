@@ -151,8 +151,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="源.cpp" />
-    <ClCompile Include="线性表.cpp" />
+    <ClCompile Include="linklist.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="sqlist.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="linklist.h" />
+    <ClInclude Include="sqlist.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
