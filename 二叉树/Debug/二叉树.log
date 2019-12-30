@@ -1,3 +1,0 @@
-﻿  二叉树.cpp
-  二叉树.vcxproj -> C:\Users\Administrator\source\repos\二叉树\Debug\二叉树.exe
-C:\Users\Administrator\source\repos\二叉树\二叉树.cpp(26): warning C6011: 取消对 NULL 指针“*T”的引用。
